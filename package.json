@@ -1,5 +1,5 @@
 {
-  "name": "codebase-qa",
+  "name": "rag-codebase-qa",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -13,7 +13,8 @@
     "db:studio": "drizzle-kit studio",
     "index": "bun scripts/index-repo.ts",
     "embedtest": "bun scripts/test-embeddings.ts",
-    "querytest": "bun scripts/test-query.ts"
+    "querytest": "bun scripts/test-query.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "hono": "^4.6.3",
