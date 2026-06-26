@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [
+      "bun-types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@domain/*": [
+        "src/domain/*"
+      ],
+      "@ports/*": [
+        "src/ports/*"
+      ],
+      "@infra/*": [
+        "src/infra/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "drizzle/**/*",
+    "scripts/**/*"
+  ]
+}
