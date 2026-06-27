@@ -1,7 +1,6 @@
 # codebase-qa
 
 This project implements a Retrieval-Augmented Generation (RAG) application designed to ingest GitHub repositories and provide natural language answers grounded in the actual code. By combining semantic search with large language models (LLMs), the system enables developers to query repositories about architecture decisions, code functionality, and pull request history.
-```
 
 ---
 
