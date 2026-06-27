@@ -1,23 +1,6 @@
 # codebase-qa
 
-Ask natural language questions about any GitHub repository. Get answers grounded in the actual code.
-
-```bash
-curl -X POST https://api.your-domain.com/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "How does authentication work?", "repoUrl": "https://github.com/org/repo"}'
-```
-
-```json
-{
-  "answer": "Authentication is handled in src/middleware/auth.ts. The verifyJWT() function on line 12 validates the Bearer token from the Authorization header...",
-  "sources": [
-    { "filePath": "src/middleware/auth.ts", "startLine": 12, "rrfScore": 0.032 },
-    { "filePath": "src/api/routes/user.routes.ts", "startLine": 44, "rrfScore": 0.028 }
-  ],
-  "cacheHit": false,
-  "durationMs": 4821
-}
+This project implements a Retrieval-Augmented Generation (RAG) application designed to ingest GitHub repositories and provide natural language answers grounded in the actual code. By combining semantic search with large language models (LLMs), the system enables developers to query repositories about architecture decisions, code functionality, and pull request history.
 ```
 
 ---
@@ -450,6 +433,20 @@ Register a repository and schedule it for indexing.
 }
 ```
 
+**cURL examples**
+
+```bash
+# Manual indexing
+curl -X POST http://localhost:3000/repos \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://github.com/org/repo"}'
+
+# Index via GitHub webhook
+curl -X POST http://localhost:3000/webhooks/github \
+  -H "Content-Type: application/json" \
+  -d '{"repository": {"url": "https://github.com/org/repo"}}'
+```
+
 If the repository is already being indexed, returns `202` with `"status": "already_queued"` and the existing `jobId`.
 
 ---
@@ -476,6 +473,12 @@ List all registered repositories.
 }
 ```
 
+**cURL examples**
+
+```bash
+curl -X GET http://localhost:3000/repos
+```
+
 ---
 
 ### `GET /repos/:id/jobs/:jobId`
@@ -499,6 +502,12 @@ Poll indexing job progress.
 
 `status` values: `queued` → `active` → `completed` | `failed`
 
+**cURL examples**
+
+```bash
+curl -X GET http://localhost:3000/repos/6ba7b810-.../jobs/550e8400-...
+```
+
 ---
 
 ### `POST /query`
@@ -512,6 +521,14 @@ Ask a natural language question about an indexed repository.
   "repoUrl":  "https://github.com/org/repo",
   "topK":     5
 }
+```
+
+**cURL examples**
+
+```bash
+curl -X POST http://localhost:3000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question": "How does the authentication middleware work?", "repoUrl": "https://github.com/org/repo"}'
 ```
 
 **Response** `200 OK`
@@ -541,6 +558,12 @@ Ask a natural language question about an indexed repository.
 ```
 
 Returns `503` if Postgres or Redis is unreachable.
+
+**cURL examples**
+
+```bash
+curl -X GET http://localhost:3000/health
+```
 
 ---
 
